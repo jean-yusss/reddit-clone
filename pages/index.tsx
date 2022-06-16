@@ -1,5 +1,8 @@
-import type { NextPage } from 'next';
 import Head from 'next/head';
+
+import type { NextPage } from 'next';
+
+import Header from '../components/Header';
 
 const HomePage: NextPage = () => {
 	return (
@@ -9,7 +12,7 @@ const HomePage: NextPage = () => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<h1>Reddit Clone</h1>
+			<Header />
 		</div>
 	);
 };

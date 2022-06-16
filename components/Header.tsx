@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { signIn } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { HomeIcon, MenuIcon, SearchIcon } from '@heroicons/react/solid';
 
 import {
@@ -14,6 +14,8 @@ import {
 } from '@heroicons/react/outline';
 
 const Header = () => {
+	const { data: session } = useSession();
+
 	return (
 		<div className='flex bg-white px-4 py-2 shadow-sm sticky top-0 z-50'>
 			<div className='relative h-10 w-20 flex-shrink-0 cursor-pointer'>
@@ -56,16 +58,34 @@ const Header = () => {
 				<MenuIcon className='icon' />
 			</div>
 
-			<div
-				className='hidden lg:flex items-center space-x-2 border border-gray-100 p-2 cursor-pointer'
-				onClick={() => signIn()}
-			>
-				<div className='relative h-5 w-5 flex-shrink-0'>
-					<Image src='https://i.imgur.com/B84ZNX4.png' alt='' layout='fill' />
-				</div>
+			{session ? (
+				<div
+					className='hidden lg:flex items-center space-x-2 border border-gray-100 p-2 cursor-pointer'
+					onClick={() => signOut()}
+				>
+					<div className='relative h-5 w-5 flex-shrink-0'>
+						<Image src='https://i.imgur.com/B84ZNX4.png' alt='' layout='fill' />
+					</div>
 
-				<p className='text-gray-400'>Sign In</p>
-			</div>
+					<div className='flex-1 text-xs'>
+						<p className='truncate'>{session?.user?.name}</p>
+						<p className='text-gray-400'>1 Karma</p>
+					</div>
+
+					<ChevronDownIcon className='h-5 flex-shrink-0 text-gray-400' />
+				</div>
+			) : (
+				<div
+					className='hidden lg:flex items-center space-x-2 border border-gray-100 p-2 cursor-pointer'
+					onClick={() => signIn()}
+				>
+					<div className='relative h-5 w-5 flex-shrink-0'>
+						<Image src='https://i.imgur.com/B84ZNX4.png' alt='' layout='fill' />
+					</div>
+
+					<p className='text-gray-400'>Sign In</p>
+				</div>
+			)}
 		</div>
 	);
 };

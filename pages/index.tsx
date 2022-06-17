@@ -1,6 +1,7 @@
 import Head from 'next/head';
 
 import type { NextPage } from 'next';
+import PostBox from '../components/PostBox';
 
 const HomePage: NextPage = () => {
 	return (
@@ -9,6 +10,8 @@ const HomePage: NextPage = () => {
 				<title>Reddit Clone</title>
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
+
+			<PostBox />
 		</div>
 	);
 };

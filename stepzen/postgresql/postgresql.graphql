@@ -59,7 +59,8 @@ type Query {
 		@dbquery(
 			type: "postgresql"
 			query: """
-			select * from "comment" where "post_id" = $1
+			select * from "comment"
+			where "post_id" = $1
 			"""
 			configuration: "postgresql_config"
 		)
@@ -68,7 +69,9 @@ type Query {
 		@dbquery(
 			type: "postgresql"
 			query: """
-			select * from "vote" where "post_id" = $1 order by "created_at" desc
+			select * from "vote"
+			where "post_id" = $1
+			order by "created_at" desc
 			"""
 			configuration: "postgresql_config"
 		)
@@ -80,21 +83,12 @@ type Query {
 		@dbquery(
 			type: "postgresql"
 			query: """
-			select * from "subreddit" where "id" = $1
+			select * from "subreddit"
+			where "id" = $1
 			"""
 			configuration: "postgresql_config"
 		)
-	"""
-	This query is an example of how to simply paginate your responses.
-	"""
-	getPaginatedCommentList(first: Int!, after: Int!): [Comment]
-		@dbquery(
-			type: "postgresql"
-			query: """
-			select * from "public"."comment" limit $1 offset $2
-			"""
-			configuration: "postgresql_config"
-		)
+
 	"""
 	In this example, a single query parameter is passed. If the request to the DB will
 	return at most one value you can remove the square brackets from the result.
@@ -122,8 +116,10 @@ type Query {
 	getPostList: [Post]
 		@dbquery(
 			type: "postgresql"
-			schema: "public"
-			table: "post"
+			query: """
+			select * from "post"
+			order by "post"."created_at" desc
+			"""
 			configuration: "postgresql_config"
 		)
 	getSubredditList: [Subreddit]

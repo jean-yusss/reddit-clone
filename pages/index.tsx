@@ -2,6 +2,7 @@ import Head from 'next/head';
 
 import type { NextPage } from 'next';
 import PostBox from '../components/PostBox';
+import Feed from '../components/Feed';
 
 const HomePage: NextPage = () => {
 	return (
@@ -12,6 +13,10 @@ const HomePage: NextPage = () => {
 			</Head>
 
 			<PostBox />
+
+			<div>
+				<Feed />
+			</div>
 		</div>
 	);
 };

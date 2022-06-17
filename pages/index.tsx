@@ -5,7 +5,7 @@ import PostBox from '../components/PostBox';
 
 const HomePage: NextPage = () => {
 	return (
-		<div>
+		<div className='max-w-5xl my-7 mx-auto'>
 			<Head>
 				<title>Reddit Clone</title>
 				<link rel='icon' href='/favicon.ico' />

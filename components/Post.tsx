@@ -10,9 +10,9 @@ import {
 import Avatar from './Avatar';
 import TimeAgo from 'react-timeago';
 
-type Props = {
+interface Props {
 	post: Post;
-};
+}
 
 const Post = ({ post }: Props) => {
 	return (

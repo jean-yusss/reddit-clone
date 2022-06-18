@@ -1,26 +1,26 @@
-type Comments = {
+interface Comments {
 	created_at: string;
 	id: number;
 	post_id: number;
 	text: string;
 	username: string;
-};
+}
 
-type Vote = {
+interface Vote {
 	created_at: string;
 	id: number;
 	post_id: number;
 	upvote: boolean;
 	username: string;
-};
+}
 
-type Subreddit = {
+interface Subreddit {
 	created_at: string;
 	id: number;
 	topic: string;
-};
+}
 
-type Post = {
+interface Post {
 	body: string;
 	created_at: string;
 	id: number;
@@ -31,4 +31,4 @@ type Post = {
 	votes: Vote[];
 	comments: Comments[];
 	subreddit: Subreddit[];
-};
+}

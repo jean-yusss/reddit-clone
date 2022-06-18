@@ -2,10 +2,10 @@ import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React from 'react';
 
-type Props = {
+interface Props {
 	seed?: string;
 	large?: boolean;
-};
+}
 
 const Avatar = ({ seed, large }: Props) => {
 	const { data: session } = useSession();

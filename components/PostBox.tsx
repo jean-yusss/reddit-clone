@@ -10,14 +10,18 @@ import { GET_ALL_POSTS, GET_SUBREDDIT_BY_TOPIC } from '../graphql/queries';
 import client from '../apollo-client';
 import toast from 'react-hot-toast';
 
-type FormData = {
+interface FormData {
 	postTitle: string;
 	postBody: string;
 	postImage: string;
 	subreddit: string;
-};
+}
 
-const PostBox = () => {
+interface Props {
+	subreddit?: string;
+}
+
+const PostBox = ({ subreddit }: Props) => {
 	const { data: session } = useSession();
 	const [imageBoxOpen, setImageBoxOpen] = useState<Boolean>(false);
 	const [addPost] = useMutation(ADD_POST, {
@@ -42,7 +46,7 @@ const PostBox = () => {
 				data: { getSubredditListByTopic }
 			} = await client.query({
 				query: GET_SUBREDDIT_BY_TOPIC,
-				variables: { topic: formData.subreddit }
+				variables: { topic: subreddit || formData.subreddit }
 			});
 
 			const subredditExists = getSubredditListByTopic.length > 0;
@@ -112,7 +116,7 @@ const PostBox = () => {
 
 	return (
 		<form
-			className='sticky top-16 z-50 bg-white border rounded-md border-gray-300 p-2'
+			className='top-16 z-50 bg-white border rounded-md border-gray-300 p-2'
 			onSubmit={onSubmit}
 		>
 			<div className='flex items-center space-x-3'>
@@ -123,7 +127,13 @@ const PostBox = () => {
 					disabled={!session}
 					className='bg-gray-50 p-2 pl-5 outline-none rounded-md flex-1'
 					type='text'
-					placeholder={session ? 'Create Post' : 'Please sign in to create a post'}
+					placeholder={
+						session
+							? subreddit
+								? `Create a post in r/${subreddit}`
+								: 'Create Post'
+							: 'Please sign in to create a post'
+					}
 				/>
 
 				<PhotographIcon
@@ -147,15 +157,17 @@ const PostBox = () => {
 						/>
 					</div>
 
-					<div className='flex items-center px-2'>
-						<p className='min-w-[90px]'>Subreddit:</p>
-						<input
-							type='text'
-							placeholder='Choose a community'
-							{...register('subreddit', { required: true })}
-							className='m-2 flex-1 bg-blue-50 p-2 outline-none'
-						/>
-					</div>
+					{!subreddit && (
+						<div className='flex items-center px-2'>
+							<p className='min-w-[90px]'>Subreddit:</p>
+							<input
+								type='text'
+								placeholder='Choose a community'
+								{...register('subreddit', { required: true })}
+								className='m-2 flex-1 bg-blue-50 p-2 outline-none'
+							/>
+						</div>
+					)}
 
 					{imageBoxOpen && (
 						<div className='flex items-center px-2'>

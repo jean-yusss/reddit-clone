@@ -12,19 +12,22 @@ import {
 	VideoCameraIcon,
 	ChevronDownIcon
 } from '@heroicons/react/outline';
+import Link from 'next/link';
 
 const Header = () => {
 	const { data: session } = useSession();
 
 	return (
-		<div className='flex bg-white px-4 py-2 shadow-sm sticky top-0 z-50'>
+		<div className='flex bg-white px-4 py-2 shadow-sm sticky top-0 z-50 items-center'>
 			<div className='relative h-10 w-20 flex-shrink-0 cursor-pointer'>
-				<Image
-					src='https://i.imgur.com/HgWhQf3.png'
-					alt=''
-					layout='fill'
-					objectFit='contain'
-				/>
+				<Link href='/'>
+					<Image
+						src='https://i.imgur.com/HgWhQf3.png'
+						alt=''
+						layout='fill'
+						objectFit='contain'
+					/>
+				</Link>
 			</div>
 
 			<div className='flex items-center mx-7 xl:min-w-[300px]'>

@@ -51,8 +51,6 @@ const PostPage = () => {
 		toast.success('Your comment has been posted!', { id: notification });
 	};
 
-	console.log(data);
-
 	return (
 		<div className='mx-auto my-7 max-w-5xl'>
 			<Post post={post} />

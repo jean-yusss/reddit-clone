@@ -5,7 +5,7 @@ import PostBox from '../components/PostBox';
 import Feed from '../components/Feed/Feed';
 import { useQuery } from '@apollo/client';
 import { GET_SUBREDDITS_WITH_LIMIT } from '../graphql/queries';
-import SubredditRow from '../components/SubredditRow';
+import SubredditRow from '../components/SubredditRow/SubredditRow';
 
 const HomePage: NextPage = () => {
 	const { data } = useQuery(GET_SUBREDDITS_WITH_LIMIT, { variables: { limit: 10 } });
@@ -19,12 +19,13 @@ const HomePage: NextPage = () => {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<PostBox />
-
 			<div className='flex'>
-				<Feed />
+				<div>
+					<PostBox />
+					<Feed />
+				</div>
 
-				<div className='sticky tip-36 mx-5 mt-5 hidden h-fit min-w-[300px] rounded-md border border-gray-300 bg-white lg:inline'>
+				<div className='mx-5 hidden h-fit min-w-[300px] rounded-md border border-gray-300 bg-white lg:inline'>
 					<p className='text-md mb-1 p-4 pb-3 font-bold'>Top Communities</p>
 					<div>
 						{subreddits?.map((subreddit, i) => (

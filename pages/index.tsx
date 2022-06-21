@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import type { NextPage } from 'next';
 import PostBox from '../components/PostBox';
-import Feed from '../components/Feed';
+import Feed from '../components/Feed/Feed';
 import { useQuery } from '@apollo/client';
 import { GET_SUBREDDITS_WITH_LIMIT } from '../graphql/queries';
 import SubredditRow from '../components/SubredditRow';

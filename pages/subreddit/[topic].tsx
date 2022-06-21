@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React from 'react';
 import Avatar from '../../components/Avatar/Avatar';
-import Feed from '../../components/Feed';
+import Feed from '../../components/Feed/Feed';
 import PostBox from '../../components/PostBox';
 
 const SubredditPage = () => {

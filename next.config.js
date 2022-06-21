@@ -3,5 +3,8 @@ module.exports = {
 	reactStrictMode: true,
 	images: {
 		domains: ['i.imgur.com', 'avatars.dicebear.com']
+	},
+	compiler: {
+		styledComponents: true
 	}
 };

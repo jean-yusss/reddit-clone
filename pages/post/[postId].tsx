@@ -6,7 +6,7 @@ import { GET_POST_BY_POST_ID } from '../../graphql/queries';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ADD_COMMENT } from '../../graphql/mutations';
 import toast from 'react-hot-toast';
-import Avatar from '../../components/Avatar';
+import Avatar from '../../components/Avatar/Avatar';
 import TimeAgo from 'react-timeago';
 
 interface FormData {

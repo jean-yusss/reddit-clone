@@ -10,7 +10,7 @@ import {
 	ShareIcon
 } from '@heroicons/react/outline';
 
-import Avatar from './Avatar';
+import Avatar from './Avatar/Avatar';
 import PostVote from './PostVote';
 
 interface Props {

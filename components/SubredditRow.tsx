@@ -1,6 +1,6 @@
 import { ChevronUpIcon } from '@heroicons/react/outline';
 import Link from 'next/link';
-import Avatar from './Avatar';
+import Avatar from './Avatar/Avatar';
 
 interface Props {
 	topic: string;

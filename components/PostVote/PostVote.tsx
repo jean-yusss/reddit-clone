@@ -2,10 +2,11 @@ import toast from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useMutation, useQuery } from '@apollo/client';
-import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/outline';
 
-import { GET_ALL_VOTES_BY_POST_ID } from '../graphql/queries';
-import { ADD_VOTE } from '../graphql/mutations';
+import { GET_ALL_VOTES_BY_POST_ID } from '../../graphql/queries';
+import { ADD_VOTE } from '../../graphql/mutations';
+
+import * as S from './PostVoteStyles';
 
 interface Props {
 	post: Post;
@@ -61,17 +62,11 @@ const PostVote = ({ post }: Props) => {
 	}, [data]);
 
 	return (
-		<div className='flex flex-col items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400'>
-			<ArrowUpIcon
-				onClick={() => upVote(true)}
-				className={`voteButton hover:text-red-400 ${vote && 'text-red-400'}`}
-			/>
-			<p className='text-black font-bold text-xs'>{displayVotes(data)}</p>
-			<ArrowDownIcon
-				onClick={() => upVote(false)}
-				className={`voteButton hover:text-blue-400 ${vote === false && 'text-blue-400'}`}
-			/>
-		</div>
+		<S.PostVoteContainer>
+			<S.UpvoteIcon $vote={vote} onClick={() => upVote(true)} />
+			<S.VoteCount>{displayVotes(data)}</S.VoteCount>
+			<S.DownvoteIcon $vote={vote} onClick={() => upVote(false)} />
+		</S.PostVoteContainer>
 	);
 };
 

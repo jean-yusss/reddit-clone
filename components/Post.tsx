@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/outline';
 
 import Avatar from './Avatar/Avatar';
-import PostVote from './PostVote';
+import PostVote from './PostVote/PostVote';
 
 interface Props {
 	post: Post;

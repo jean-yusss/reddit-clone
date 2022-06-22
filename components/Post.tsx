@@ -2,16 +2,9 @@ import Link from 'next/link';
 import TimeAgo from 'react-timeago';
 import { Jelly } from '@uiball/loaders';
 
-import {
-	BookmarkIcon,
-	ChatAltIcon,
-	DotsHorizontalIcon,
-	GiftIcon,
-	ShareIcon
-} from '@heroicons/react/outline';
-
 import Avatar from './Avatar/Avatar';
 import PostVote from './PostVote/PostVote';
+import PostFooter from './PostFooter/PostFooter';
 
 interface Props {
 	post: Post;
@@ -52,31 +45,7 @@ const Post = ({ post }: Props) => {
 
 					<img src={post.image} alt='' className='w-full' />
 
-					<div className='flex space-x-4 text-gray-400'>
-						<div className='postButton'>
-							<ChatAltIcon className='h-6 w-6' />
-							<p>{post.comments.length} Comments</p>
-						</div>
-
-						<div className='postButton'>
-							<GiftIcon className='h-6 w-6' />
-							<p className='hidden sm:inline'>Award</p>
-						</div>
-
-						<div className='postButton'>
-							<ShareIcon className='h-6 w-6' />
-							<p className='hidden sm:inline'>Share</p>
-						</div>
-
-						<div className='postButton'>
-							<BookmarkIcon className='h-6 w-6' />
-							<p className='hidden sm:inline'>Save</p>
-						</div>
-
-						<div className='postButton'>
-							<DotsHorizontalIcon className='h-6 w-6' />
-						</div>
-					</div>
+					<PostFooter post={post} />
 				</div>
 			</div>
 		</Link>

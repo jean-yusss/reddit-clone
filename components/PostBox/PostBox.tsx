@@ -4,11 +4,14 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
 
-import Avatar from './Avatar/Avatar';
-import { ADD_POST, ADD_SUBREDDIT } from '../graphql/mutations';
-import { GET_ALL_POSTS, GET_SUBREDDIT_BY_TOPIC } from '../graphql/queries';
-import client from '../apollo-client';
+import Avatar from '../Avatar/Avatar';
+import { ADD_POST, ADD_SUBREDDIT } from '../../graphql/mutations';
+import { GET_ALL_POSTS, GET_SUBREDDIT_BY_TOPIC } from '../../graphql/queries';
+import client from '../../apollo-client';
 import toast from 'react-hot-toast';
+import PostBoxField from '../PostBoxField/PostBoxField';
+
+import * as S from './PostBoxStyles';
 
 interface FormData {
 	postTitle: string;
@@ -53,7 +56,6 @@ const PostBox = ({ subreddit }: Props) => {
 
 			if (!subredditExists) {
 				// Create a new subreddit if it doesn't exist.
-				console.log('Creating a new Subreddit!');
 
 				const {
 					data: { insertSubreddit: newSubreddit }
@@ -62,8 +64,6 @@ const PostBox = ({ subreddit }: Props) => {
 						topic: formData.subreddit
 					}
 				});
-
-				console.log('Creating post...', formData);
 
 				const image = formData.postImage || '';
 
@@ -78,12 +78,8 @@ const PostBox = ({ subreddit }: Props) => {
 						username: session?.user?.name
 					}
 				});
-
-				console.log('New post created: ', newPost);
 			} else {
 				// Use the existing subreddit.
-				console.log('Using existing subreddit!');
-				console.log(getSubredditListByTopic);
 
 				const image = formData.postImage || '';
 
@@ -98,8 +94,6 @@ const PostBox = ({ subreddit }: Props) => {
 						username: session?.user?.name
 					}
 				});
-
-				console.log('New post added: ', newPost);
 			}
 
 			// Clear fields after submitting.
@@ -147,38 +141,20 @@ const PostBox = ({ subreddit }: Props) => {
 
 			{!!watch('postTitle') && (
 				<div className='flex flex-col py-2'>
-					<div className='flex items-center px-2'>
-						<p className='min-w-[90px]'>Body:</p>
-						<input
-							type='text'
-							placeholder='Text (optional)'
-							{...register('postBody')}
-							className='m-2 flex-1 bg-blue-50 p-2 outline-none'
-						/>
-					</div>
+					<PostBoxField title='Body:'>
+						<S.PostBody {...register('postBody')} />
+					</PostBoxField>
 
 					{!subreddit && (
-						<div className='flex items-center px-2'>
-							<p className='min-w-[90px]'>Subreddit:</p>
-							<input
-								type='text'
-								placeholder='Choose a community'
-								{...register('subreddit', { required: true })}
-								className='m-2 flex-1 bg-blue-50 p-2 outline-none'
-							/>
-						</div>
+						<PostBoxField title='Subreddit:'>
+							<S.Subreddit {...register('subreddit', { required: true })} />
+						</PostBoxField>
 					)}
 
 					{imageBoxOpen && (
-						<div className='flex items-center px-2'>
-							<p className='min-w-[90px]'>Image:</p>
-							<input
-								type='text'
-								placeholder='Provide the URL to the image'
-								{...register('postImage')}
-								className='m-2 flex-1 bg-blue-50 p-2 outline-none'
-							/>
-						</div>
+						<PostBoxField title='Image:'>
+							<S.PostImage {...register('postImage')} />
+						</PostBoxField>
 					)}
 
 					{Object.keys(errors).length > 0 && (

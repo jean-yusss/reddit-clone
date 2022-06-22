@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 
-import Post from '../Post';
+import Post from '../Post/Post';
 
 import { GET_ALL_POSTS, GET_ALL_POSTS_BY_TOPIC } from '../../graphql/queries';
 

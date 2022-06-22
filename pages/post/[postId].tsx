@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import Post from '../../components/Post';
+import Post from '../../components/Post/Post';
 import { GET_POST_BY_POST_ID } from '../../graphql/queries';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ADD_COMMENT } from '../../graphql/mutations';

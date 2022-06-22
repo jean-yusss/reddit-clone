@@ -1,15 +1,15 @@
-import { LinkIcon, PhotographIcon } from '@heroicons/react/outline';
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client';
+import toast from 'react-hot-toast';
 
 import Avatar from '../Avatar/Avatar';
+import PostBoxField from '../PostBoxField/PostBoxField';
+
+import client from '../../apollo-client';
 import { ADD_POST, ADD_SUBREDDIT } from '../../graphql/mutations';
 import { GET_ALL_POSTS, GET_SUBREDDIT_BY_TOPIC } from '../../graphql/queries';
-import client from '../../apollo-client';
-import toast from 'react-hot-toast';
-import PostBoxField from '../PostBoxField/PostBoxField';
 
 import * as S from './PostBoxStyles';
 
@@ -26,11 +26,12 @@ interface Props {
 
 const PostBox = ({ subreddit }: Props) => {
 	const { data: session } = useSession();
-	const [imageBoxOpen, setImageBoxOpen] = useState<Boolean>(false);
+	const [addSubreddit] = useMutation(ADD_SUBREDDIT);
+	const [imageBoxOpen, setImageBoxOpen] = useState(false);
+
 	const [addPost] = useMutation(ADD_POST, {
 		refetchQueries: [GET_ALL_POSTS, 'getPostList']
 	});
-	const [addSubreddit] = useMutation(ADD_SUBREDDIT);
 
 	const {
 		register,
@@ -56,20 +57,15 @@ const PostBox = ({ subreddit }: Props) => {
 
 			if (!subredditExists) {
 				// Create a new subreddit if it doesn't exist.
-
 				const {
 					data: { insertSubreddit: newSubreddit }
 				} = await addSubreddit({
-					variables: {
-						topic: formData.subreddit
-					}
+					variables: { topic: formData.subreddit }
 				});
 
 				const image = formData.postImage || '';
 
-				const {
-					data: { insertPost: newPost }
-				} = await addPost({
+				await addPost({
 					variables: {
 						body: formData.postBody,
 						image: image,
@@ -80,12 +76,9 @@ const PostBox = ({ subreddit }: Props) => {
 				});
 			} else {
 				// Use the existing subreddit.
-
 				const image = formData.postImage || '';
 
-				const {
-					data: { insertPost: newPost }
-				} = await addPost({
+				await addPost({
 					variables: {
 						body: formData.postBody,
 						image: image,
@@ -109,18 +102,12 @@ const PostBox = ({ subreddit }: Props) => {
 	});
 
 	return (
-		<form
-			className='top-16 z-50 bg-white border rounded-md border-gray-300 p-2'
-			onSubmit={onSubmit}
-		>
-			<div className='flex items-center space-x-3'>
+		<S.PostBoxContainer onSubmit={onSubmit}>
+			<S.PostBox>
 				<Avatar />
 
-				<input
-					{...register('postTitle', { required: true })}
+				<S.PostTitle
 					disabled={!session}
-					className='bg-gray-50 p-2 pl-5 outline-none rounded-md flex-1'
-					type='text'
 					placeholder={
 						session
 							? subreddit
@@ -128,19 +115,18 @@ const PostBox = ({ subreddit }: Props) => {
 								: 'Create Post'
 							: 'Please sign in to create a post'
 					}
+					{...register('postTitle', { required: true })}
 				/>
 
-				<PhotographIcon
-					className={`h-6 text-gray-300 cursor-pointer ${
-						imageBoxOpen && 'text-blue-300'
-					}`}
+				<S.PhotoIcon
+					$imageBoxOpen={imageBoxOpen}
 					onClick={() => setImageBoxOpen(!imageBoxOpen)}
 				/>
-				<LinkIcon className='h-6 text-gray-300' />
-			</div>
+				<S.Link />
+			</S.PostBox>
 
 			{!!watch('postTitle') && (
-				<div className='flex flex-col py-2'>
+				<S.PopupContainer>
 					<PostBoxField title='Body:'>
 						<S.PostBody {...register('postBody')} />
 					</PostBoxField>
@@ -158,23 +144,20 @@ const PostBox = ({ subreddit }: Props) => {
 					)}
 
 					{Object.keys(errors).length > 0 && (
-						<div className='space-y-2 p-2 text-red-500'>
-							{errors.postTitle?.type === 'required' && <p>A Post Title is required</p>}
-							{errors.subreddit?.type === 'required' && <p>A Subreddit is required</p>}
-						</div>
+						<S.ErrorContainer>
+							{errors.postTitle?.type === 'required' && (
+								<S.Error>A Post Title is required</S.Error>
+							)}
+							{errors.subreddit?.type === 'required' && (
+								<S.Error>A Subreddit is required</S.Error>
+							)}
+						</S.ErrorContainer>
 					)}
 
-					{!!watch('postTitle') && (
-						<button
-							type='submit'
-							className='w-full rounded-full bg-blue-400 p-2 text-white'
-						>
-							Post
-						</button>
-					)}
-				</div>
+					{!!watch('postTitle') && <S.SubmitButton>Post</S.SubmitButton>}
+				</S.PopupContainer>
 			)}
-		</form>
+		</S.PostBoxContainer>
 	);
 };
 

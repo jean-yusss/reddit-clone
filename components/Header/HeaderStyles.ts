@@ -120,6 +120,7 @@ const iconStyles = css`
 	@media (min-width: 1024px) {
 		padding: 0.25rem;
 	}
+
 	&:hover {
 		background-color: #f3f4f6;
 	}

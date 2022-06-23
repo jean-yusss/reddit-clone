@@ -98,6 +98,7 @@ const PostBox = ({ subreddit }: Props) => {
 			toast.success('New Post Created', { id: notification });
 		} catch (error) {
 			toast.error('Something went wrong!', { id: notification });
+			console.log(error);
 		}
 	});
 

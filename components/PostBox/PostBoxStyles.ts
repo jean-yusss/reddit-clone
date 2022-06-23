@@ -1,10 +1,6 @@
 import styled from 'styled-components';
 import { LinkIcon, PhotographIcon } from '@heroicons/react/outline';
 
-interface PhotoProps {
-	$imageBoxOpen: boolean;
-}
-
 export const PostBoxContainer = styled.form`
 	top: 4rem;
 	z-index: 50;
@@ -36,7 +32,7 @@ export const PostTitle = styled.input.attrs({
 	background-color: #f9fafb;
 `;
 
-export const PhotoIcon = styled(PhotographIcon)<PhotoProps>`
+export const PhotoIcon = styled(PhotographIcon)<{ $imageBoxOpen: boolean }>`
 	height: 1.5rem;
 	color: #d1d5db;
 	cursor: pointer;

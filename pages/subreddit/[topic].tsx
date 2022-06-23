@@ -1,8 +1,10 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+
 import Avatar from '../../components/Avatar/Avatar';
 import Feed from '../../components/Feed/Feed';
 import PostBox from '../../components/PostBox/PostBox';
+
+import * as S from '../../styles/SubredditPageStyles';
 
 const SubredditPage = () => {
 	const {
@@ -10,25 +12,25 @@ const SubredditPage = () => {
 	} = useRouter();
 
 	return (
-		<div className={`h-24 bg-red-400 p-8`}>
-			<div className='-mx-8 mt-10 bg-white'>
-				<div className='mx-auto flex max-w-5xl items-center space-x-4 pb-3'>
-					<div className='-mt-5'>
+		<S.SubredditPageContainer>
+			<S.SubredditHeaderContainer>
+				<S.SubredditHeader>
+					<S.AvatarContainer>
 						<Avatar seed={topic as string} large />
-					</div>
+					</S.AvatarContainer>
 
-					<div className='py-2'>
-						<h1 className='text-3xl font-semibold'>Welcome to the r/{topic} subreddit</h1>
-						<p className='text-sm text-gray-400'>r/{topic}</p>
-					</div>
-				</div>
-			</div>
+					<S.SubredditInfo>
+						<S.SubredditTitle>Welcome to the r/{topic} subreddit</S.SubredditTitle>
+						<S.SubredditName>r/{topic}</S.SubredditName>
+					</S.SubredditInfo>
+				</S.SubredditHeader>
+			</S.SubredditHeaderContainer>
 
-			<div className='mx-auto mt-5 max-w-5xl mb-10'>
+			<S.FeedContainer>
 				<PostBox subreddit={topic as string} />
 				<Feed topic={topic as string} />
-			</div>
-		</div>
+			</S.FeedContainer>
+		</S.SubredditPageContainer>
 	);
 };
 

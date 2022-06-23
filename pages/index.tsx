@@ -1,11 +1,14 @@
 import Head from 'next/head';
-
 import type { NextPage } from 'next';
-import PostBox from '../components/PostBox/PostBox';
+
 import Feed from '../components/Feed/Feed';
+import PostBox from '../components/PostBox/PostBox';
+import SubredditRow from '../components/SubredditRow/SubredditRow';
+
 import { useQuery } from '@apollo/client';
 import { GET_SUBREDDITS_WITH_LIMIT } from '../graphql/queries';
-import SubredditRow from '../components/SubredditRow/SubredditRow';
+
+import * as S from '../styles/HomePageStyles';
 
 const HomePage: NextPage = () => {
 	const { data } = useQuery(GET_SUBREDDITS_WITH_LIMIT, { variables: { limit: 10 } });
@@ -13,28 +16,28 @@ const HomePage: NextPage = () => {
 	const subreddits: Subreddit[] = data?.getSubredditListLimit;
 
 	return (
-		<div className='max-w-5xl my-7 mx-auto'>
+		<S.HomePageContainer>
 			<Head>
 				<title>Reddit Clone</title>
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 
-			<div className='flex'>
-				<div className='w-full'>
+			<S.HomePageContent>
+				<S.FeedContainer>
 					<PostBox />
 					<Feed />
-				</div>
+				</S.FeedContainer>
 
-				<div className='mx-5 hidden h-fit min-w-[300px] rounded-md border border-gray-300 bg-white lg:inline'>
-					<p className='text-md mb-1 p-4 pb-3 font-bold'>Top Communities</p>
-					<div>
+				<S.SubredditContainer>
+					<S.SubredditList>Top Communities</S.SubredditList>
+					<>
 						{subreddits?.map((subreddit, i) => (
 							<SubredditRow key={subreddit.id} topic={subreddit.topic} index={i} />
 						))}
-					</div>
-				</div>
-			</div>
-		</div>
+					</>
+				</S.SubredditContainer>
+			</S.HomePageContent>
+		</S.HomePageContainer>
 	);
 };
 

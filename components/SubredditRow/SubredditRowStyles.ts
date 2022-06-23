@@ -39,7 +39,7 @@ export const Subreddit = styled.p`
 export const ViewButton = styled.div`
 	cursor: pointer;
 	border-radius: 9999px;
-	background-color: #3b82f6;
+	background-color: #0079d3;
 	color: white;
 	padding: 0.25rem 0.75rem;
 `;

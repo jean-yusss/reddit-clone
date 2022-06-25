@@ -1,13 +1,17 @@
-import { useMutation, useQuery } from '@apollo/client';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import Post from '../../components/Post/Post';
-import { GET_POST_BY_POST_ID } from '../../graphql/queries';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { ADD_COMMENT } from '../../graphql/mutations';
 import toast from 'react-hot-toast';
-import Avatar from '../../components/Avatar/Avatar';
 import TimeAgo from 'react-timeago';
+import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
+import { useMutation, useQuery } from '@apollo/client';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+import Post from '../../components/Post/Post';
+import Avatar from '../../components/Avatar/Avatar';
+
+import { ADD_COMMENT } from '../../graphql/mutations';
+import { GET_POST_BY_POST_ID } from '../../graphql/queries';
+
+import * as S from '../../styles/PostPageStyles';
 
 interface FormData {
 	comment: string;
@@ -16,6 +20,7 @@ interface FormData {
 const PostPage = () => {
 	const router = useRouter();
 	const { data: session } = useSession();
+
 	const [addComment] = useMutation(ADD_COMMENT, {
 		refetchQueries: [GET_POST_BY_POST_ID, 'getPostListByPostId']
 	});
@@ -28,13 +33,7 @@ const PostPage = () => {
 
 	const post: Post = data?.getPostListByPostId;
 
-	const {
-		register,
-		handleSubmit,
-		watch,
-		setValue,
-		formState: { errors }
-	} = useForm<FormData>();
+	const { register, handleSubmit, setValue } = useForm<FormData>();
 
 	const onSubmit: SubmitHandler<FormData> = async data => {
 		const notification = toast.loading('Posting your comment...');
@@ -52,59 +51,49 @@ const PostPage = () => {
 	};
 
 	return (
-		<div className='mx-auto my-7 max-w-5xl'>
+		<S.PostPageContainer>
 			<Post post={post} />
 
-			<div className='rounded-b-md border border-t-0 border-gray-300 bg-white p-5 pl-16 -mt-1'>
-				<p className='text-sm'>
-					Comment as{' '}
-					<span className='text-blue-400 cursor-pointer hover:underline'>
-						{session?.user?.name}
-					</span>
-				</p>
+			<S.CommentBoxContainer>
+				{session && (
+					<S.CommentAs>
+						Comment as
+						<S.UserName>{` ${session?.user?.name}`}</S.UserName>
+					</S.CommentAs>
+				)}
 
-				<form className='flex flex-col space-y-2' onSubmit={handleSubmit(onSubmit)}>
-					<textarea
-						className='h-24 rounded-md border border-gray-200 p-2 pl-4 outline-none disabled:bg-gray-50'
+				<S.CommentBox onSubmit={handleSubmit(onSubmit)}>
+					<S.CommentInput
 						placeholder={
 							session ? 'What are your thoughts?' : 'Please sign in to comment'
 						}
 						disabled={!session}
 						{...register('comment')}
 					/>
-					<button
-						disabled={!session}
-						type='submit'
-						className='rounded-full bg-red-500 p-3 font-semibold text-white disabled:bg-gray-200'
-					>
-						Comment
-					</button>
-				</form>
-			</div>
+					<S.CommentButton disabled={!session}>Comment</S.CommentButton>
+				</S.CommentBox>
+			</S.CommentBoxContainer>
 
-			<div className='-my-5 rounded-b-md border border-t-0 border-gray-300 bg-white py-5 px-10'>
-				<hr className='py-2' />
+			<S.Comments>
+				<S.LineBreak />
 				{post?.comments.map(comment => (
-					<div
-						key={comment.id}
-						className='relative flex items-center space-x-2 space-y-5'
-					>
-						<hr className='absolute top-10 h-16 border left-7 z-0' />
-						<div className='z-50'>
+					<S.CommentContainer key={comment.id}>
+						<S.Line />
+						<S.AvatarContainer>
 							<Avatar seed={comment.username} />
-						</div>
+						</S.AvatarContainer>
 
-						<div className='flex flex-col'>
-							<p className='py-2 text-xs text-gray-400'>
-								<span className='font-semibold text-gray-600'>{comment.username} </span>
+						<S.PostedCommentContainer>
+							<S.PostedCommentInfo>
+								<S.CommentBy>{comment.username} </S.CommentBy>
 								• <TimeAgo date={comment.created_at} />
-							</p>
-							<p>{comment.text}</p>
-						</div>
-					</div>
+							</S.PostedCommentInfo>
+							<S.CommentText>{comment.text}</S.CommentText>
+						</S.PostedCommentContainer>
+					</S.CommentContainer>
 				))}
-			</div>
-		</div>
+			</S.Comments>
+		</S.PostPageContainer>
 	);
 };
 

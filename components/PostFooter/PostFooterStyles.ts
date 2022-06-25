@@ -37,8 +37,13 @@ export const PostButtonContainer = styled.div`
 `;
 
 const iconStyles = css`
-	height: 1.5rem;
-	width: 1.5rem;
+	height: 1rem;
+	width: 1rem;
+
+	@media (min-width: 380px) {
+		height: 1.5rem;
+		width: 1.5rem;
+	}
 `;
 
 export const Chat = styled(ChatAltIcon)`
@@ -61,17 +66,12 @@ export const Dots = styled(DotsHorizontalIcon)`
 	${iconStyles}
 `;
 
-export const Comments = styled.p`
-	font-size: 0.75rem;
-	line-height: 1rem;
-`;
-
 export const FooterText = styled.p`
 	display: none;
 	font-size: 0.75rem;
 	line-height: 1rem;
 
-	@media (min-width: 640px) {
+	@media (min-width: 580px) {
 		display: inline;
 	}
 `;

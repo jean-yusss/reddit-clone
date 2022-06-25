@@ -15,6 +15,7 @@ import {
 export const HeaderContainer = styled.div`
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	background-color: white;
 	padding: 0 1rem;
 	position: sticky;
@@ -49,13 +50,9 @@ export const Home = styled(HomeIcon)`
 export const HomeText = styled.p`
 	flex: 1 1 0%;
 	margin-left: 0.5rem;
-	display: none;
+	display: inline;
 	font-size: 0.875rem;
 	line-height: 1.25rem;
-
-	@media (min-width: 1024px) {
-		display: inline;
-	}
 `;
 
 export const DropdownIcon = styled(ChevronDownIcon)`
@@ -64,7 +61,7 @@ export const DropdownIcon = styled(ChevronDownIcon)`
 `;
 
 export const SearchBar = styled.form`
-	display: flex;
+	display: none;
 	flex: 1 1 0%;
 	align-items: center;
 	border-width: 1px;
@@ -72,6 +69,10 @@ export const SearchBar = styled.form`
 	border-radius: 0.125rem;
 	padding: 0.25rem 0.75rem;
 	background-color: #f3f4f6;
+
+	@media (min-width: 525px) {
+		display: flex;
+	}
 
 	& > * {
 		margin-left: 0.5rem;

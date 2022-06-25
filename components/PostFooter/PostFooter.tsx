@@ -8,7 +8,7 @@ const PostFooter = ({ post }: Props) => (
 	<S.PostFooterContainer>
 		<S.PostButtonContainer>
 			<S.Chat />
-			<S.Comments>{post.comments.length} Comments</S.Comments>
+			<S.FooterText>{post.comments.length} Comments</S.FooterText>
 		</S.PostButtonContainer>
 
 		<S.PostButtonContainer>

@@ -39,9 +39,15 @@ export const PostInfoContainer = styled.div`
 `;
 
 export const PostInfo = styled.p`
+	display: flex;
+	flex-direction: column;
 	font-size: 0.75rem;
 	line-height: 1rem;
 	color: #9ca3af;
+
+	@media (min-width: 440px) {
+		flex-direction: row;
+	}
 `;
 
 export const Subreddit = styled.span`
@@ -72,5 +78,13 @@ export const PostBody = styled.p`
 `;
 
 export const PostImage = styled.img.attrs({ alt: '' })`
-	width: 100%;
+	width: 250px;
+
+	@media (min-width: 400px) {
+		width: 85%;
+	}
+
+	@media (min-width: 640px) {
+		width: 100%;
+	}
 `;
